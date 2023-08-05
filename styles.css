@@ -1,0 +1,318 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-family: 'Rubik', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1a1a1a;
+    color: #fff;
+}
+button, input, select, textarea {
+    font-family: 'Open Sans', sans-serif;
+    font-family: 'Rubik', sans-serif;
+}
+
+#container {
+    display: flex;
+    height: 100vh;
+}
+
+#left-panel {
+    flex: 1;
+    padding: 20px;
+    background-color: #3a3a3a;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0; /* removes default space between flex items */
+}
+#social-links {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    margin-right: 10px;
+}
+
+#social-links a {
+    margin: 0 5px; /* adjust as necessary, this adds 10px space to the left and right of each link */
+}
+
+#social-links img {
+    width: 40px;
+    height: 40px; /* adjust as necessary */
+}
+
+#left-panel-top {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0; /* removes default space between flex items */
+}
+
+
+#left-panel-bottom {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0; /* removes default space between flex items */
+}
+#statusLabel {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.85em;
+}
+#logo {
+    width: 200px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    margin-bottom: 30px;
+}
+
+#logo img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+#version-select {
+    width: 100%;
+    height: 70px; /* Increase the height a bit to accommodate the label */
+    margin-bottom: 30px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start; /* Align items to the start */
+    flex-direction: column; /* Stack the elements vertically */
+}
+
+#version-select label {
+    display: block;
+    color: #fff; /* White color */
+    margin-bottom: 7px;
+    margin-left: 8px/* Space below the label */
+}
+
+#version-selector {
+    background-color: #444;
+    color: #fff;
+    padding: 10px;
+    width: 100%;
+    border-radius: 15px;
+    border: 1px solid #9b50d9;
+}
+
+#install-button {
+    background-color: #9b50d9;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    width: 200px;
+    height: 50px;
+    border-radius: 5px;
+    font-size: 1.5em;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    text-align: center; /* Aligns text horizontally */
+    line-height: 30px; /* removes default margin */
+}
+#install-button:disabled {
+    background-color: #9b50d9;
+    opacity: 0.45; /* Makes the button a faded version of the base color */
+    cursor: not-allowed;
+}
+#folderNotification {
+    color: red;
+    font-size: 0.8em;
+    margin-top: 5px;
+}
+
+#overall-progress {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.2em;
+    border-radius: 15px;
+}
+
+#progressLabel {
+    color: #fff;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    font-size: 0.65em;
+}
+
+#progressBar {
+    width: 100%;
+}
+
+#right-panel {
+    flex: 3;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+#paths {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+    font-size: 0.92em;
+}
+
+.path {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px;
+    align-items: center;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    font-size: 0.9em;
+    align-items: center;
+}
+
+.input-wrapper input {
+    flex: 1;
+    padding: 5px;
+    padding-right: 35px; /* adjust as needed */
+    background-color: #333;
+    border: 1px solid #444;
+    color: #fff;
+    border-radius: 5px;
+}
+
+#sc2-path-select {
+    background: none;
+    color: #fff;
+    border: none;
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+}
+
+#sc2-path-select img {
+    margin-top: 2px;
+    height: 24px;
+    width: 24px;
+}
+#sc2-path-select:disabled {
+    cursor: not-allowed;
+    opacity: 0.45; /* Makes the button a faded version */
+}
+
+#sc2-path-select:disabled img {
+    opacity: 0.45; /* Makes the button's image a faded version */
+}
+
+#filesProgressContainer {
+    height: 100%; /* adjust as needed */
+    overflow-y: auto;
+    overflow-x: hidden; /* prevents horizontal scrollbar */
+    padding-right: 15px; /* space for the scrollbar */
+    scrollbar-width: thin; /* for Firefox */
+    scrollbar-color: #666 #2a2a2a; /* for Firefox */
+}
+
+#filesProgressContainer::-webkit-scrollbar {
+    width: 10px; /* width of the entire scrollbar */
+}
+
+#filesProgressContainer::-webkit-scrollbar-track {
+    background: #2a2a2a;
+    border-radius: 3px;/* color of the tracking area */
+}
+
+#filesProgressContainer::-webkit-scrollbar-thumb {
+    background-color: #666; /* color of the scroll thumb */
+    border-radius: 20px; /* roundness of the scroll thumb */
+    border: 3px solid #2a2a2a; /* creates padding around scroll thumb */
+}
+
+.single-file-progress {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+    padding: 5px 0; /* Reduced padding */
+    box-sizing: border-box; /* Include padding and border in the element's total width */
+    border-bottom: 1px solid #333;
+}
+.single-file-progress .progress-label {
+    flex-basis: 60%; /* adjust as needed */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#file-progresses {
+    overflow-y: auto; /* makes this section only scrollable */
+}
+
+.progress-label {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 0.9em; /* Reduced font size */
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.file-name {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-top: 2px; /* Reduced margin */
+}
+
+.progress-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 0.7em;
+}
+
+.file-size, .file-progress-percent {
+    margin-bottom: 2px;
+}
+
+
+progress {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    height: 7px;
+    border: none;
+    border-radius: 10px; /* Adjust as needed */
+    overflow: hidden; /* Ensures the inner bar stays within the border radius */
+}
+
+progress::-webkit-progress-bar {
+    background-color: #666;
+    border-radius: 10px; /* Adjust as needed */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+}
+
+progress::-webkit-progress-value {
+    background-color: #9a5fef; /* Adjust as needed */
+}
+
+progress::-moz-progress-bar {
+    background-color: #9a5fef; /* Adjust as needed */
+}

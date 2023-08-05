@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Rubik&display=swap" rel="stylesheet">
+    <title>Resurgence of the Storm Patcher</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+<div id="container">
+    <div id="left-panel">
+        <div id="left-panel-top">
+            <img id="logo" src="public/Resurgence_Logo_2.png">
+            <div id="social-links">
+                <a href="#" onclick="require('electron').shell.openExternal('https://discord.gg/ymEtCr6t63')">
+                    <img src="public/discord.png" alt="Discord" style="width: 41px; height: 41px; margin-bottom: 2px">
+                </a>
+                <a href="#" onclick="require('electron').shell.openExternal('https://www.patreon.com/resurgenceofthestorm')">
+                    <img src="public/patreon.png" alt="Patreon">
+                </a>
+                <a href="#" onclick="require('electron').shell.openExternal('https://boosty.to/resurgenceofthestorm')">
+                    <img src="public/boosty.png" alt="Boosty" style="width: 36px; height: 36px">
+                </a>
+                <a href="#" onclick="require('electron').shell.openExternal('https://drive.google.com/drive/folders/120ZQ98GRY-gnrC7bz8YdmKWLIvNZkuXt')">
+                    <img src="public/gdrive.png" alt="Gdrive" style="width: 44px; height: 44px">
+                </a>
+            </div>
+        </div>
+
+        <div id="left-panel-bottom">
+            <div id="version-select">
+                <label for="version-selector">Version:</label>
+                <select id="version-selector">
+                </select>
+            </div>
+            <span id="folderNotification" style="display: none;">Folder path is required!</span>
+            <label id="statusLabel"></label>
+            <button id="install-button" onclick="updateFiles()">Patch</button>
+            <div id="overall-progress" style="display: none;">
+                <progress id="progressBar" class="progress" value="0" max="100"></progress>
+                <span id="progressLabel">Initializing...</span>
+            </div>
+        </div>
+
+    </div>
+    <div id="right-panel">
+        <div id="paths">
+            <div class="path">
+                <label for="selectedFolderPath">Game Location:</label>
+                <div class="input-wrapper">
+                    <input id="selectedFolderPath" type="text" placeholder="Choose your Starcraft II folder" readonly />
+                    <button id="sc2-path-select" onclick="chooseFolder()">
+                        <img src="public/file-icon.png" alt="Select Folder" >
+                    </button>
+                </div>
+                <label for="modDir">Mod Location:</label>
+                <div class="input-wrapper">
+                    <input id="modDir" type="text" placeholder="Mods\Resurgence of the Storm\Release" readonly />
+                </div>
+            </div>
+        </div>
+        <div id="file-progresses">
+            <div id="filesProgressContainer"></div>
+        </div>
+    </div>
+</div>
+<script src="renderer.js"></script>
+</body>
+
+</html>

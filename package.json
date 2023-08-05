@@ -1,0 +1,52 @@
+{
+  "name": "resurgence-of-the-storm",
+  "version": "1.0.2",
+  "description": "Resurgence of the Storm Patcher",
+  "main": "main.js",
+  "scripts": {
+    "build": "electron-builder"
+  },
+  "author": "deskyre",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "big.js": "^6.2.1",
+    "bluebird": "^3.7.2",
+    "electron-is-dev": "^2.0.0",
+    "electron-oauth2": "^3.0.0",
+    "electron-store": "^8.1.0",
+    "google-auth-library": "^9.0.0",
+    "googleapis": "^122.0.0",
+    "https-proxy-agent": "^7.0.1",
+    "p-queue": "^7.3.4",
+    "regedit": "^5.1.2"
+  },
+  "devDependencies": {
+    "electron": "^25.3.1",
+    "electron-builder": "^24.6.3"
+  },
+  "pkg": {
+    "scripts": "build/main.js",
+    "targets": "node16-win-x64",
+    "outputPath": "dist"
+  },
+  "build": {
+    "productName": "Resurgence of the Storm Patcher",
+    "appId": "Resurgence of the Storm",
+    "win": {
+      "icon": "public/Icon_Logo.ico",
+      "target": [
+        "portable"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "portable": {
+      "artifactName": "Resurgence of the Storm Patcher.exe"
+    }
+  }
+}
