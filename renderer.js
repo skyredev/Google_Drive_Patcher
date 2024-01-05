@@ -29,7 +29,6 @@ function populateVersionSelector(subfolders) {
         versionSelector.removeChild(versionSelector.firstChild);
     }
 
-    // Add each subfolder as an option in reverse order
     for (let i = subfolders.length - 1; i >= 0; i--) {
         const folder = subfolders[i];
         const option = document.createElement('option');
@@ -80,10 +79,17 @@ ipcRenderer.on('folderSelected', (event, folderPath) => {
     selectedFolderPathInput.value = folderPath;
 });
 
-// Listener to handle responses from the main process (main.js)
+// Listener to handle responses from the main process
 ipcRenderer.on('updateStatus', (event, status) => {
     updateStatus(status);
 });
+
+ipcRenderer.on('wrapper', (event, status) => {
+    const statusLabel = document.getElementById('statusLabel');
+    statusLabel.style.whiteSpace = 'pre-wrap';
+    statusLabel.style.color = "red";
+
+})
 let buttonTextInterval;
 
 ipcRenderer.on('buttonText', (event, text, animation) => {
@@ -128,7 +134,6 @@ ipcRenderer.on('downloadProgress', (event, { progress, downloaded, total }) => {
         progressContainer.style.display = 'contents'; // Show progress bar during download
     }
 
-    // Hide progress bar and status label when download is complete
 });
 ipcRenderer.on('downloadProgressSingleFile', (event, { fileName, progress, downloadedBytes, totalSizeBytes }) => {
     let fileProgressContainer = document.getElementById(`fileProgress_${fileName}`);
@@ -177,7 +182,7 @@ ipcRenderer.on('downloadProgressSingleFile', (event, { fileName, progress, downl
         checkmark.textContent = '✓'; // set the text content to a checkmark
         checkmark.style.color = 'green'; // color the checkmark green
         checkmark.style.fontSize = '1em'; // adjust as needed
-        fileProgressContainer.appendChild(checkmark); // add the checkm
+        fileProgressContainer.appendChild(checkmark); // add the checkmark
     }
 });
 ipcRenderer.on('clean', (event, start) => {
@@ -214,5 +219,7 @@ ipcRenderer.on('clean', (event, start) => {
 });
 
 
+
 ipcRenderer.send('getFileStructure');
 ipcRenderer.send('loadSavedFolderPath');
+
