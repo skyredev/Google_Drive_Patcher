@@ -187,7 +187,7 @@ async function downloadFiles(event) {
         }
     }, { concurrency: maxConcurrentDownloads }).catch(error => {
         console.error("An error occurred while downloading files:", error);
-        mainWindow.webContents.send('updateStatus', 'Error: #FTD_1 - Google Drive API Error. Please try again later or contact discord Admin');
+        mainWindow.webContents.send('updateStatus', 'Error: #FTD_1 - Please try again later or install manually.');
     });
 }
 async function initDownload(event) {
@@ -323,13 +323,29 @@ ipcMain.on('openFolderDialog', (event) => {
 
     dialog
         .showOpenDialog(mainWindow, {
-            properties: ['openDirectory'],
+            title: 'Select StarCraft II.exe',
+            properties: ['openFile'],
+            filters: [
+                { name: 'StarCraft II', extensions: ['exe'] },
+            ],
         })
         .then((result) => {
             if (!result.canceled && result.filePaths.length > 0) {
-                folderPath = path.join(result.filePaths[0], modPath);
-                store.set('folderPath', result.filePaths[0]);
-                event.reply('folderSelected', result.filePaths[0]);
+                const selectedFilePath = result.filePaths[0];
+                const directoryPath = path.dirname(result.filePaths[0]);
+                const requiredFileName = 'StarCraft II.exe';
+                const fileName = path.basename(selectedFilePath);
+
+                if (fileName === requiredFileName) {
+                    folderPath = path.join(directoryPath, modPath);
+                    store.set('folderPath', directoryPath);
+                    event.reply('folderSelected', directoryPath);
+                } else {
+                    dialog.showErrorBox(
+                        'Invalid Selection',
+                        `Please find "${requiredFileName}". You can find it by clicking "Show In Explorer" in Battle.net.`
+                    );
+                }
             }
         })
         .catch((err) => {
@@ -358,7 +374,8 @@ ipcMain.on('updateFiles', async (event) => {
             return sendUpdateMessage(event, 'All files are up to date', 'Patch');
         }
         let i = 0;
-        while (files.length > 0 && i < 10) {
+        // We already retry three times per download, retrying every download 3x10 times is silly
+        while (files.length > 0 && i < 0) {
             console.log(`retry ${i}`)
             i++;
             sizeToDownload =  0
@@ -368,7 +385,7 @@ ipcMain.on('updateFiles', async (event) => {
         }
 
         if( files.length > 0 ) {
-            return sendUpdateMessage(event, 'Error: #FTD_2', 'Patch'); //. Please try to reopen patcher and try again or contact discord Admin
+            return sendUpdateMessage(event, 'Error: #FTD_2 - Please try again later or install manually.', 'Patch'); //. Please try to reopen patcher and try again or contact discord Admin
         }
         finalizeUpdate(event);
 

@@ -4,7 +4,8 @@
   "description": "Resurgence of the Storm Patcher",
   "main": "main.js",
   "scripts": {
-    "build": "electron-builder"
+    "build": "electron-builder",
+    "start": "electron ."
   },
   "author": "deskyre",
   "license": "MIT",
