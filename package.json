@@ -36,6 +36,10 @@
   "build": {
     "productName": "Resurgence of the Storm Patcher",
     "appId": "Resurgence of the Storm",
+    "extraFiles": [
+      "backup_file_ids.json",
+      "primary_file_ids.json"
+    ], 
     "win": {
       "icon": "public/Icon_Logo.ico",
       "target": [
