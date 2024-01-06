@@ -72,8 +72,7 @@ app.on('ready', () => {
 
 async function shouldDownloadFile(file) {
     const localFilePath = path.join(folderPath, file.path);
-    //const fileInfo = store.get(file.id);
-    const fileInfo = store.get(file.name);
+    const fileInfo = store.get(file.id);
 
     if (!fs.existsSync(localFilePath)) {
         return true;
@@ -102,7 +101,7 @@ async function updateStoreAfterDownload(file) {
         md5Checksum: file.md5Checksum,
         lastModified: stat.mtime.getTime(),
     };
-    store.set(file.name, fileInfo);
+    store.set(file.id, fileInfo);
 }
 async function downloadFiles(event) {
     const maxConcurrentDownloads = 5;
@@ -198,7 +197,6 @@ async function initDownload(event) {
 
     let checkedFiles = 0;
     let filesToDownload = 0;
-    files.length = 0;
     await Promise.all(
         selectedPackage.files.map(async (file) => {
             file.localFilePath = path.join(folderPath, file.path);
@@ -234,6 +232,10 @@ async function initDownload(event) {
 
 
 
+}
+async function fetchToken() {
+    const response = await axios.get(`${serverUrl}/token`);
+    accessToken = response.data;
 }
 async function fetchFilesAndToken() {
     const [tokenResponse] = await Promise.all([
@@ -291,10 +293,15 @@ ipcMain.on('loadSavedFolderPath', (event) => {
 });
 ipcMain.on('getFileStructure', async (event) => {
     try {
+        await fetchToken();
         event.sender.send('clean', true);
         const response = await axios.get(`${serverUrl}/files`)
 
         packages = response.data;
+        if(!packages){
+            sendUpdateMessage(event, 'Error: #FTD_3 All sources are temporarily blocked by Google. Please, try again later', 'Patch');
+            return;
+        }
         event.sender.send('subfoldersFetched', packages );
         console.log(isDevMode)
 
@@ -307,7 +314,7 @@ ipcMain.on('getFileStructure', async (event) => {
             const patcherVersion = patcher[0].version;
 
             if (patcherVersion !== version) {
-                sendUpdateMessage(event, 'Patcher is outdated.\n\nPlease download the latest version: https://drive.google.com/drive/folders/1aFyXPlDKqp7Zo6Lnn9VxNVOxFE9mOkLI', 'noclean2');
+                sendUpdateMessage(event, 'Patcher is outdated.\n\nPlease download the latest version', 'noclean2');
             }
             else event.sender.send('clean', false);
         }else {
@@ -359,46 +366,8 @@ ipcMain.on('selectedFolderId', (event, folderId, folderName) => {
 });
 ipcMain.on('updateFiles', async (event) => {
     if (!folderPath) {
-        return sendUpdateMessage(event, 'Error: #FTD_5 - Please select a folder'); //. Please select a folder first
+        return sendUpdateMessage(event, 'Error: #FTD_5'); //. Please select a folder first
     }
-
-    //Transfer the store data here
-    const primaryData = fs.readFileSync("primary_file_ids.json", 'utf-8');
-    const primaryJson = JSON.parse(primaryData);
-    const backupData = fs.readFileSync("backup_file_ids.json", 'utf-8');
-    const backupJson = JSON.parse(backupData);
-
-    primaryJson.forEach( item => {
-        if (item.files && item.files.length > 0) {
-            item.files.forEach(file => {
-                const id = file.id
-                const name = file.name
-                let fileInfo = store.get(id, "0");
-                if(fileInfo != 0) {
-                    store.set(name, fileInfo);
-                    store.delete(id);
-                    console.log(`Converted file from primary id to name`);
-                }
-            });
-          }
-    }
-    )
-
-    backupJson.forEach( item => {
-        if (item.files && item.files.length > 0) {
-            item.files.forEach(file => {
-                const id = file.id
-                const name = file.name
-                let fileInfo = store.get(id, "0");
-                if(fileInfo != 0) {
-                    store.set(name, fileInfo);
-                    store.delete(id);
-                    console.log(`Converted file from backup id to name`);
-                }
-            });
-          }
-    }
-    )
 
     try {
         event.reply('clean', true);
@@ -432,7 +401,7 @@ ipcMain.on('updateFiles', async (event) => {
     } catch (err) {
         // Handle any unexpected errors here.
         console.error(err);
-        sendUpdateMessage(event, 'Error: #FTD_3', 'Patch'); // Please try to reopen patcher and try again or contact discord Admin
+        sendUpdateMessage(event, 'Error: #FTD_3 All sources are temporarily blocked by Google. Please, try again later', 'Patch');
     }
 });
 
