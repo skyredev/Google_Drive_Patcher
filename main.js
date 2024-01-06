@@ -235,6 +235,10 @@ async function initDownload(event) {
 
 
 }
+async function fetchToken() {
+    const response = await axios.get(`${serverUrl}/token`);
+    accessToken = response.data;
+}
 async function fetchFilesAndToken() {
     const [tokenResponse] = await Promise.all([
         axios.get(`${serverUrl}/token`)
@@ -291,10 +295,15 @@ ipcMain.on('loadSavedFolderPath', (event) => {
 });
 ipcMain.on('getFileStructure', async (event) => {
     try {
+        await fetchToken();
         event.sender.send('clean', true);
         const response = await axios.get(`${serverUrl}/files`)
 
         packages = response.data;
+        if(!packages){
+            sendUpdateMessage(event, 'Error: #FTD_3 All sources are temporarily blocked by Google. Please, try again later', 'Patch');
+            return;
+        }
         event.sender.send('subfoldersFetched', packages );
         console.log(isDevMode)
 
@@ -432,7 +441,7 @@ ipcMain.on('updateFiles', async (event) => {
     } catch (err) {
         // Handle any unexpected errors here.
         console.error(err);
-        sendUpdateMessage(event, 'Error: #FTD_3', 'Patch'); // Please try to reopen patcher and try again or contact discord Admin
+        sendUpdateMessage(event, 'Error: #FTD_3 All sources are temporarily blocked by Google. Please, try again later', 'Patch');
     }
 });
 
