@@ -1,6 +1,6 @@
 {
   "name": "resurgence-of-the-storm",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Resurgence of the Storm Patcher",
   "main": "main.js",
   "scripts": {
@@ -25,8 +25,8 @@
     "regedit": "^5.1.2"
   },
   "devDependencies": {
-    "electron": "^25.9.8",
-    "electron-builder": "^24.6.3"
+    "electron": "^28.1.1",
+    "electron-builder": "^24.9.1"
   },
   "pkg": {
     "scripts": "build/main.js",
@@ -39,7 +39,7 @@
     "extraFiles": [
       "backup_file_ids.json",
       "primary_file_ids.json"
-    ], 
+    ],
     "win": {
       "icon": "public/Icon_Logo.ico",
       "target": [

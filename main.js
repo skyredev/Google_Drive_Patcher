@@ -295,8 +295,8 @@ ipcMain.on('loadSavedFolderPath', (event) => {
 });
 ipcMain.on('getFileStructure', async (event) => {
     try {
-        await fetchToken();
         event.sender.send('clean', true);
+        await fetchToken();
         const response = await axios.get(`${serverUrl}/files`)
 
         packages = response.data;
